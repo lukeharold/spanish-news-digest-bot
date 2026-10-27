@@ -215,7 +215,7 @@ def main():
         idx = sys.argv.index("--mode")
         mode = sys.argv[idx + 1]
 
-    today = datetime.now(timezone.utc).strftime("%A, %B %-d, %Y")
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime("%A, %B %-d, %Y")
 
     if mode == "daily":
         print("Fetching articles (last 24h)...")
