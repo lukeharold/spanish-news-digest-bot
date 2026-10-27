@@ -112,12 +112,18 @@ Below are news headlines and summaries from Spanish-language outlets published i
 
 Write a concise daily digest in English, to be read in a few minutes as a plain-text email.
 
-Start with a 4-6 sentence high-level summary of the day's news: the biggest stories and
-what connects them, with border and immigration developments first.
+Cover only news about Mexico and Latin America. Leave out international news from elsewhere
+(Europe, Asia, the Middle East, etc.) and US news unless it directly involves Mexico or the border.
 
-Then list only the stories that matter most, about 15-25 in total, grouped by theme
-(e.g. border security, crime, politics, economy). When several outlets cover the same story,
-list it once and name the outlets. Skip minor items, sports, and entertainment news.
+Start with a 4-6 sentence high-level summary of the day's news, leading with Tijuana.
+
+Then list only the stories that matter most, in these three sections, in this order:
+1. Tijuana & Baja California: about 8-12 stories
+2. Mexico: national news and other states, about 6-10 stories
+3. Latin America: just the 3-5 top headlines from the rest of the region
+
+When several outlets cover the same story, list it once and name the outlets.
+Skip minor items, sports, and entertainment news.
 For each story give: the outlet(s), a one-sentence summary, and one link.
 
 Be factual and neutral. Do not editorialize. Flag anything that seems particularly significant for border/immigration coverage.
@@ -143,9 +149,17 @@ Below are news headlines and summaries from Spanish-language outlets from the pa
 
 Write a weekly trend analysis in English.
 
-Start with a 4-6 sentence high-level summary of the week's main trends and how they connect.
+Cover only news about Mexico and Latin America. Leave out international news from elsewhere
+(Europe, Asia, the Middle East, etc.) and US news unless it directly involves Mexico or the border.
 
-Then identify 4-6 major themes or developing stories.
+Start with a 4-6 sentence high-level summary of the week's main trends and how they connect,
+leading with Tijuana.
+
+Then identify the major themes or developing stories, in these three sections, in this order:
+1. Tijuana & Baja California: 2-3 themes
+2. Mexico: national news and other states, 2-3 themes
+3. Latin America: 1-2 themes from the rest of the region
+
 For each theme: name it, explain why it matters, note which outlets are covering it and how,
 and flag anything a journalist should watch in the coming week.
 Be specific — cite outlets and stories by name. Stay factual and neutral.
