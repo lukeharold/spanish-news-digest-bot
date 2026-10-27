@@ -25,15 +25,19 @@ GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 ANTHROPIC_API_KEY  = os.environ["ANTHROPIC_API_KEY"]
 
 
-def fetch_recent_articles(hours=26):
-    """Fetch articles published in the last N hours across all feeds."""
+def fetch_recent_articles(hours=26, per_feed=15):
+    """Fetch articles published in the last N hours across all feeds.
+
+    per_feed caps how many of each feed's newest entries are considered
+    (None for no cap).
+    """
     cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
     articles = []
 
     for outlet, url in FEEDS.items():
         try:
             feed = feedparser.parse(url)
-            for entry in feed.entries[:15]:
+            for entry in feed.entries[:per_feed]:
                 published = entry.get("published_parsed") or entry.get("updated_parsed")
                 if published:
                     pub_dt = datetime(*published[:6], tzinfo=timezone.utc)
@@ -57,8 +61,8 @@ def fetch_recent_articles(hours=26):
 
 
 def fetch_week_articles():
-    """Fetch articles from the last 7 days."""
-    return fetch_recent_articles(hours=170)
+    """Fetch articles from the last 7 days, with no per-feed cap."""
+    return fetch_recent_articles(hours=170, per_feed=None)
 
 
 def create_message(prompt, effort):
