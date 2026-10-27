@@ -24,6 +24,8 @@ SEND_TO   = "haroldl1@pm.me"
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 ANTHROPIC_API_KEY  = os.environ["ANTHROPIC_API_KEY"]
 
+USER_AGENT = "spanish-news-digest-bot/1.0 (+https://github.com/lukeharold/spanish-news-digest-bot)"
+
 
 def fetch_recent_articles(hours=26, per_feed=15):
     """Fetch articles published in the last N hours across all feeds.
@@ -36,9 +38,10 @@ def fetch_recent_articles(hours=26, per_feed=15):
 
     for outlet, url in FEEDS.items():
         try:
-            feed = feedparser.parse(url)
+            feed = feedparser.parse(url, agent=USER_AGENT)
             for entry in feed.entries[:per_feed]:
                 published = entry.get("published_parsed") or entry.get("updated_parsed")
+                pub_dt = None
                 if published:
                     pub_dt = datetime(*published[:6], tzinfo=timezone.utc)
                     if pub_dt < cutoff:
@@ -52,7 +55,7 @@ def fetch_recent_articles(hours=26, per_feed=15):
                         "title":  title,
                         "summary": summary[:400],
                         "link":   link,
-                        "date":   pub_dt.strftime("%Y-%m-%d %H:%M UTC"),
+                        "date":   pub_dt.strftime("%Y-%m-%d %H:%M UTC") if pub_dt else "date unknown",
                     })
         except Exception as e:
             print(f"  Warning: could not fetch {outlet}: {e}")
@@ -68,14 +71,19 @@ def fetch_week_articles():
 def create_message(prompt, effort):
     """Call Claude, falling back to another model if a safety classifier declines."""
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-    return client.beta.messages.create(
+    # Streaming avoids HTTP timeouts on long digests with a high max_tokens
+    with client.beta.messages.stream(
         model="claude-opus-5-5",
-        max_tokens=16000,
+        max_tokens=64000,
         output_config={"effort": effort},
         betas=["server-side-fallback-2026-07-01"],
         fallbacks="default",
         messages=[{"role": "user", "content": prompt}],
-    )
+    ) as stream:
+        response = stream.get_final_message()
+    print(f"  {response.model}: {response.usage.input_tokens} input / "
+          f"{response.usage.output_tokens} output tokens")
+    return response
 
 
 def response_text(response):
