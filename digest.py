@@ -61,6 +61,15 @@ def fetch_week_articles():
     return fetch_recent_articles(hours=170)
 
 
+def response_text(response):
+    """Return the reply text, warning in the log if it hit the token limit."""
+    text = response.content[0].text
+    if response.stop_reason == "max_tokens":
+        print("  Warning: digest hit max_tokens and was truncated")
+        text += "\n\n[Digest truncated: hit the length limit]"
+    return text
+
+
 def summarize_daily(articles):
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     if not articles:
@@ -83,10 +92,10 @@ Articles:
 
     response = client.messages.create(
         model="claude-opus-4-5",
-        max_tokens=2000,
+        max_tokens=8000,
         messages=[{"role": "user", "content": prompt}]
     )
-    return response.content[0].text
+    return response_text(response)
 
 
 def summarize_weekly(articles):
@@ -112,10 +121,10 @@ Articles:
 
     response = client.messages.create(
         model="claude-opus-4-5",
-        max_tokens=2500,
+        max_tokens=6000,
         messages=[{"role": "user", "content": prompt}]
     )
-    return response.content[0].text
+    return response_text(response)
 
 
 def send_email(subject, body):
