@@ -110,8 +110,16 @@ def summarize_daily(articles):
     prompt = f"""You are a research assistant for a journalist covering Latin America and the US-Mexico border.
 Below are news headlines and summaries from Spanish-language outlets published in the last 24 hours.
 
-Write a concise daily digest in English. Group stories by theme (e.g. border security, crime, politics, economy, culture).
-For each story give: the outlet, a one-sentence summary, and the link.
+Write a concise daily digest in English, to be read in a few minutes as a plain-text email.
+
+Start with a 4-6 sentence high-level summary of the day's news: the biggest stories and
+what connects them, with border and immigration developments first.
+
+Then list only the stories that matter most, about 15-25 in total, grouped by theme
+(e.g. border security, crime, politics, economy). When several outlets cover the same story,
+list it once and name the outlets. Skip minor items, sports, and entertainment news.
+For each story give: the outlet(s), a one-sentence summary, and one link.
+
 Be factual and neutral. Do not editorialize. Flag anything that seems particularly significant for border/immigration coverage.
 
 Articles:
@@ -133,7 +141,11 @@ def summarize_weekly(articles):
     prompt = f"""You are a research assistant for a journalist covering Latin America and the US-Mexico border.
 Below are news headlines and summaries from Spanish-language outlets from the past 7 days.
 
-Write a weekly trend analysis in English. Identify 4-6 major themes or developing stories.
+Write a weekly trend analysis in English.
+
+Start with a 4-6 sentence high-level summary of the week's main trends and how they connect.
+
+Then identify 4-6 major themes or developing stories.
 For each theme: name it, explain why it matters, note which outlets are covering it and how,
 and flag anything a journalist should watch in the coming week.
 Be specific — cite outlets and stories by name. Stay factual and neutral.
