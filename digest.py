@@ -117,6 +117,12 @@ Cover only news about Mexico and Latin America. Leave out international news fro
 
 Start with a 4-6 sentence high-level summary of the day's news, leading with Tijuana.
 
+Format: this is a plain-text email, so write plain prose with no Markdown or symbols
+(no #, *, **, bullets, or horizontal rules). Write the summary as a conversational but
+professional briefing, the way a colleague would brief a reporter at the start of the day.
+For each section, put its name on a line by itself, then give each story as a short
+paragraph followed by its link on its own line, with a blank line between stories.
+
 Then list only the stories that matter most, in these three sections, in this order:
 1. Tijuana & Baja California: about 8-12 stories
 2. Mexico: national news and other states, about 6-10 stories
@@ -124,7 +130,7 @@ Then list only the stories that matter most, in these three sections, in this or
 
 When several outlets cover the same story, list it once and name the outlets.
 Skip minor items, sports, and entertainment news.
-For each story give: the outlet(s), a one-sentence summary, and one link.
+For each story give the outlet(s), a one-sentence summary, and one link.
 
 Be factual and neutral. Do not editorialize. Flag anything that seems particularly significant for border/immigration coverage.
 
@@ -154,6 +160,12 @@ Cover only news about Mexico and Latin America. Leave out international news fro
 
 Start with a 4-6 sentence high-level summary of the week's main trends and how they connect,
 leading with Tijuana.
+
+Format: this is a plain-text email, so write plain prose with no Markdown or symbols
+(no #, *, **, bullets, or horizontal rules). Write the summary as a conversational but
+professional briefing, the way a colleague would brief a reporter at the start of the week.
+For each section, put its name on a line by itself, then give each theme as one or two
+short paragraphs that open with the theme's name, with a blank line between themes.
 
 Then identify the major themes or developing stories, in these three sections, in this order:
 1. Tijuana & Baja California: 2-3 themes
