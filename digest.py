@@ -61,9 +61,25 @@ def fetch_week_articles():
     return fetch_recent_articles(hours=170)
 
 
+def create_message(prompt, effort):
+    """Call Claude, falling back to another model if a safety classifier declines."""
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    return client.beta.messages.create(
+        model="claude-opus-5-5",
+        max_tokens=16000,
+        output_config={"effort": effort},
+        betas=["server-side-fallback-2026-07-01"],
+        fallbacks="default",
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+
 def response_text(response):
     """Return the reply text, warning in the log if it hit the token limit."""
-    text = response.content[0].text
+    if response.stop_reason == "refusal":
+        raise RuntimeError(f"Claude declined the request: {response.stop_details}")
+    # The response can start with (empty) thinking blocks, so keep only text blocks
+    text = "".join(b.text for b in response.content if b.type == "text")
     if response.stop_reason == "max_tokens":
         print("  Warning: digest hit max_tokens and was truncated")
         text += "\n\n[Digest truncated: hit the length limit]"
@@ -71,7 +87,6 @@ def response_text(response):
 
 
 def summarize_daily(articles):
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     if not articles:
         return "No articles found in the last 24 hours."
 
@@ -90,16 +105,11 @@ Be factual and neutral. Do not editorialize. Flag anything that seems particular
 Articles:
 {lines}"""
 
-    response = client.messages.create(
-        model="claude-opus-4-5",
-        max_tokens=8000,
-        messages=[{"role": "user", "content": prompt}]
-    )
+    response = create_message(prompt, effort="medium")
     return response_text(response)
 
 
 def summarize_weekly(articles):
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     if not articles:
         return "No articles found this week."
 
@@ -119,11 +129,7 @@ Be specific — cite outlets and stories by name. Stay factual and neutral.
 Articles:
 {lines}"""
 
-    response = client.messages.create(
-        model="claude-opus-4-5",
-        max_tokens=6000,
-        messages=[{"role": "user", "content": prompt}]
-    )
+    response = create_message(prompt, effort="high")
     return response_text(response)
 
 
