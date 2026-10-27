@@ -126,6 +126,9 @@ short punchy lead-in phrase that ends in a period (like a mini-headline), follow
 three brisk sentences that credit the outlet inline (e.g. "Zeta reports that..."), then the
 link on its own line. Use only Tijuana stories here; if there are fewer than five, use the
 biggest Baja California stories to fill out the list.
+The tone here is brisk and lightly wry, like a well-sourced friend catching you up: a dry aside
+or a knowing turn of phrase is welcome where it fits. Never joke about violence, deaths, victims,
+or disasters; play those straight.
 
 2. The briefing. A 4-6 sentence high-level summary of the rest of the day's news, written as a
 conversational but professional briefing, the way a colleague would brief a reporter at the
@@ -143,7 +146,7 @@ Skip minor items, sports, and entertainment news.
 Format: this is a plain-text email, so write plain prose with no Markdown or symbols
 (no #, *, **, bullets, or horizontal rules); the numbers in the top 5 list are the only exception.
 
-Be factual and neutral. Do not editorialize. Flag anything that seems particularly significant for border/immigration coverage.
+Keep every fact accurate and attributed. Outside the top 5, stay neutral and don't editorialize. Flag anything that seems particularly significant for border/immigration coverage.
 
 Articles:
 {lines}"""
