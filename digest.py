@@ -13,6 +13,7 @@ import sys
 import smtplib
 import feedparser
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import anthropic
@@ -107,30 +108,40 @@ def summarize_daily(articles):
         for a in articles
     )
 
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).strftime("%A, %B %-d")
+
     prompt = f"""You are a research assistant for a journalist covering Latin America and the US-Mexico border.
 Below are news headlines and summaries from Spanish-language outlets published in the last 24 hours.
 
-Write a concise daily digest in English, to be read in a few minutes as a plain-text email.
+Write a daily digest in English, to be read in a few minutes as a plain-text email. Today is {today}.
 
 Cover only news about Mexico and Latin America. Leave out international news from elsewhere
 (Europe, Asia, the Middle East, etc.) and US news unless it directly involves Mexico or the border.
 
-Start with a 4-6 sentence high-level summary of the day's news, leading with Tijuana.
+The email has three parts, in this order:
+
+1. Top 5 in Tijuana. Open with "Good morning! It's {today}." and a one-line lead-in, then a
+numbered list of the five most important Tijuana stories of the day. Start each item with a
+short punchy lead-in phrase that ends in a period (like a mini-headline), followed by two or
+three brisk sentences that credit the outlet inline (e.g. "Zeta reports that..."), then the
+link on its own line. Use only Tijuana stories here; if there are fewer than five, use the
+biggest Baja California stories to fill out the list.
+
+2. The briefing. A 4-6 sentence high-level summary of the rest of the day's news, written as a
+conversational but professional briefing, the way a colleague would brief a reporter at the
+start of the day.
+
+3. The breakdown. The other stories that matter most, in these three sections, in this order:
+Tijuana & Baja California (about 6-10 stories, not repeating the top 5),
+Mexico (national news and other states, about 6-10 stories), and
+Latin America (just the 3-5 top headlines from the rest of the region).
+Put each section's name on a line by itself, then give each story as a short paragraph naming
+the outlet(s) with a one-sentence summary, followed by one link on its own line, with a blank
+line between stories. When several outlets cover the same story, list it once and name the outlets.
+Skip minor items, sports, and entertainment news.
 
 Format: this is a plain-text email, so write plain prose with no Markdown or symbols
-(no #, *, **, bullets, or horizontal rules). Write the summary as a conversational but
-professional briefing, the way a colleague would brief a reporter at the start of the day.
-For each section, put its name on a line by itself, then give each story as a short
-paragraph followed by its link on its own line, with a blank line between stories.
-
-Then list only the stories that matter most, in these three sections, in this order:
-1. Tijuana & Baja California: about 8-12 stories
-2. Mexico: national news and other states, about 6-10 stories
-3. Latin America: just the 3-5 top headlines from the rest of the region
-
-When several outlets cover the same story, list it once and name the outlets.
-Skip minor items, sports, and entertainment news.
-For each story give the outlet(s), a one-sentence summary, and one link.
+(no #, *, **, bullets, or horizontal rules); the numbers in the top 5 list are the only exception.
 
 Be factual and neutral. Do not editorialize. Flag anything that seems particularly significant for border/immigration coverage.
 
